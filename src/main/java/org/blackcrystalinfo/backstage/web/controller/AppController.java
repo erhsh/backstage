@@ -79,8 +79,8 @@ public class AppController {
 		String appSaveFolder = "apps";
 
 		// 保存文件名称
-		String saveName = appType + "_" + curVer + "_"
-				+ System.currentTimeMillis() + "_" + file.getOriginalFilename();
+		String saveName = appType + "_" + System.currentTimeMillis() + "_"
+				+ file.getOriginalFilename();
 
 		// 拼接下载文件路径：http://ip:port/webapp/apps/apptype_appver_timestamp_filename
 		String downloadUrl = request.getScheme() + "://"
@@ -95,6 +95,7 @@ public class AppController {
 		try {
 			FileUtils.writeByteArrayToFile(new File(appSavePath),
 					file.getBytes(), false);
+			System.out.println("upload success~~~>>> " + appSavePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -103,18 +104,25 @@ public class AppController {
 
 		return "redirect:app";
 	}
-	
-	@RequestMapping(value = "/apps/{appname}", method = RequestMethod.GET,produces="application/octet-stream")
-	public ResponseEntity<byte[]> download(@PathVariable String appname) throws IOException{
-		HttpHeaders headers = new HttpHeaders();   
-	    MediaType mt=new MediaType("application","octet-stream");   
-	    headers.setContentType(mt);
-	    
-	    String appSaveFolder = "apps";
-	    
-	    String appSavePath = ContextLoader.getCurrentWebApplicationContext().getServletContext().getRealPath("/") + "/"
-				+ appSaveFolder + "/" + appname;
+
+	@RequestMapping(value = "/apps/{appname:.*}", method = RequestMethod.GET, produces = {"application/octet-stream","application/*",})
+	public ResponseEntity<byte[]> download(@PathVariable String appname) throws IOException {
+		HttpHeaders headers = new HttpHeaders();
+		MediaType mt = new MediaType("application", "octet-stream");
+		headers.setContentType(mt);
+
+		String appSaveFolder = "apps";
+
+		String appSavePath = ContextLoader.getCurrentWebApplicationContext()
+				.getServletContext().getRealPath("/")
+				+ "/" + appSaveFolder + "/" + appname;
 		File dir = new File(appSavePath);
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(dir), headers, HttpStatus.OK);
+		if (!dir.exists()) {
+			return new ResponseEntity<byte[]>(null, headers,
+					HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(dir),
+				headers, HttpStatus.OK);
 	}
 }
