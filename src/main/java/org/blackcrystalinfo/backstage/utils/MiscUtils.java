@@ -74,7 +74,7 @@ public class MiscUtils {
 		int p = 1000000000;
 		for(String s : ns){
 			System.out.println(s);
-			n +=(Integer.parseInt(s)*(p/=1000));
+			n +=(Integer.parseInt(s)*(p/=100));
 			System.out.println(n);
 			
 		}

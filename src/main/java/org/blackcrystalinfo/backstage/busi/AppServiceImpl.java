@@ -32,7 +32,7 @@ public class AppServiceImpl implements IAppService {
 		String url = (String) app.get("url");
 		m.put("url", url);
 		m.put("ver", app.get("last"));
-		m.put("msg", "xxxx");
+		m.put("msg", app.get("msg"));
 		int curt = MiscUtils.copyright(cur);
 		if (curt == last) {
 			m.put("status", 1);
@@ -54,17 +54,17 @@ public class AppServiceImpl implements IAppService {
 	}
 
 	@Transactional
-	public void save(String id, String cur, String min, String url) {
+	public void save(String id, String cur, String min, String msg, String url) {
 		String getSql = "select * from app where id=?";
 
 		List<Map<String, Object>> ret = jdbcTemplate.queryForList(getSql, id);
 
 		if (null != ret && !ret.isEmpty()) {
-			String updateSql = "Update app set last=?, avail=?, url=? where id=?";
-			jdbcTemplate.update(updateSql, cur, min, url, id);
+			String updateSql = "Update app set last=?, avail=?, msg=?, url=? where id=?";
+			jdbcTemplate.update(updateSql, cur, min, msg, url, id);
 		} else {
-			String inserSql = "insert into app(id, last, avail, url) values(?,?,?,?)";
-			jdbcTemplate.update(inserSql, id, cur, min, url);
+			String inserSql = "insert into app(id, last, avail, msg, url) values(?,?,?,?,?)";
+			jdbcTemplate.update(inserSql, id, cur, min, msg, url);
 		}
 	}
 

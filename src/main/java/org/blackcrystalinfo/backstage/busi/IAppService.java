@@ -8,7 +8,7 @@ public interface IAppService {
 
 	public Map<?, ?> check(String id, String cur);
 
-	public void save(String id, String cur, String min, String url);
+	public void save(String id, String cur, String min, String msg, String url);
 
 	public void test();
 }

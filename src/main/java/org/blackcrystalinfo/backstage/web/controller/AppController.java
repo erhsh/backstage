@@ -62,6 +62,7 @@ public class AppController {
 			appVersion.setId((String) app.get("id"));
 			appVersion.setAvail((String) app.get("avail"));
 			appVersion.setLast((String) app.get("last"));
+			appVersion.setMsg((String) app.get("msg"));
 			appVersion.setUrl((String) app.get("url"));
 			result.add(appVersion);
 		}
@@ -76,6 +77,7 @@ public class AppController {
 		String appType = request.getParameter("appType");
 		String curVer = request.getParameter("curVer");
 		String minVer = request.getParameter("minVer");
+		String msg = request.getParameter("msg");
 		String appSaveFolder = "apps";
 
 		// 保存文件名称
@@ -100,7 +102,7 @@ public class AppController {
 			e.printStackTrace();
 		}
 
-		appService.save(appType, curVer, minVer, downloadUrl);
+		appService.save(appType, curVer, minVer, msg, downloadUrl);
 
 		return "redirect:app";
 	}

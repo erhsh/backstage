@@ -46,7 +46,7 @@
 			<div class="control-group">
 				<label class="control-lable">选择上传文件</label>
 				<div class="controls">
-					<input type="file" name="file" />
+					<input type="file" name="file" accept=".apk" />
 				</div>
 			</div>
 			<div class="control-group">
@@ -61,6 +61,12 @@
 					<input name="minVer" />
 				</div>
 			</div>
+			<div class="control-group">
+				<label class="control-lable">版本描述</label>
+				<div class="controls">
+					<textarea class="autogrow" name="msg" rows="5" cols="30"></textarea>
+				</div>
+			</div>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary">Save</button>
 			</div>
@@ -71,6 +77,7 @@
 					<td>App类型</td>
 					<td>最新版本</td>
 					<td>系统支持最小版本</td>
+					<td>版本描述</td>
 					<td>下载地址</td>
 				</tr>
 				<c:forEach items="${applist}" var="c">
@@ -78,6 +85,8 @@
 						<td>${c.id}</td>
 						<td>${c.last}</td>
 						<td>${c.avail}</td>
+						<td>${c.msg}</td>
+						<td><textarea class="autogrow" cols="30" readonly="readonly">${c.msg}</textarea></td>
 						<td>${c.url}</td>
 					</tr>
 				</c:forEach>

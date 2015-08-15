@@ -4,6 +4,7 @@ public class AppVersion {
 	private String id;
 	private String last;
 	private String avail;
+	private String msg;
 	private String url;
 
 	public String getId() {
@@ -28,6 +29,14 @@ public class AppVersion {
 
 	public void setAvail(String avail) {
 		this.avail = avail;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 	public String getUrl() {
